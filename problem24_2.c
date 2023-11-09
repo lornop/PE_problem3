@@ -8,37 +8,52 @@ The lexicographic permutations of 0, 1 and 2 are:
 What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 */
 #include <stdio.h>
+
+
+void DoPermutation(__int32_t highestdigit);
+
+
+__int32_t
+million                 = 1000000,
+permutation_count       = 0,
+digitsarray[10]         = {0,1,2,3,4,5,6,7,8,9},
+digit                   = 10;                       //gonna leave this at 10 because its easier on my brain. -1 it when passed to DoPermutation(digit - 1); 
+
+
+
+
 int main()
 {
-    long int 
-    million                 = 1000000,
-    permutation_count       = 0,
-    digitsarray[10]         = {0,1,2,3,4,5,6,7,8,9},
-    digit                   = 10,
-    digitcount              = 0;
-
 
     while (permutation_count < million)             //run until we get to the millionth permutation
     {
-        //for (digit = 10; digit >= 0; digit --)      //change every digit in the array
-        if ( digit >= 0)
-        {
-            digit --;
 
-            digitcount = digit;
+        DoPermutation(digit - 1);       //where the magic happens
 
-            permutation_count++;
+        permutation_count++;    //this will probably need to be moved somewhere else,
+                                //since the permutations are more then just every highest place value
 
-            //move some numbers around in the array
 
-        }
-
+        digit --;               //we start at the end of the array [9]
     printf("%d\n", permutation_count);
     }
 
 
 
 return 0;
+}
+
+
+//**************************************************************
+void DoPermutation(__int32_t highestdigit)
+{
+    __int32_t 
+    currentdigit    = highestdigit,
+    tempmove        = 0,
+    tempstorage     = 0;
+
+
+    //do stuff
 }
 
 
