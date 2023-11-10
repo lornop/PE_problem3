@@ -17,6 +17,7 @@ __int32_t
 million                 = 1000000,
 permutation_count       = 0,
 digitsarray[10]         = {0,1,2,3,4,5,6,7,8,9},
+permutations_per_count  = 0,
 digit                   = 10;                       //gonna leave this at 10 because its easier on my brain. -1 it when passed to DoPermutation(digit - 1); 
 
 
@@ -28,10 +29,12 @@ int main()
     while (permutation_count < million)             //run until we get to the millionth permutation
     {
 
-        DoPermutation(digit - 1);       //where the magic happens
+        for (permutations_per_count = digit; permutations_per_count > digit; permutations_per_count--)
+        {
+            DoPermutation(permutations_per_count - 1);       //where the magic happens
+        }
+        
 
-        permutation_count++;    //this will probably need to be moved somewhere else,
-                                //since the permutations are more then just every highest place value
 
 
         digit --;               //we start at the end of the array [9]
@@ -48,10 +51,28 @@ return 0;
 void DoPermutation(__int32_t highestdigit)
 {
     __int32_t 
-    currentdigit    = highestdigit,
+    currentdigit    = highestdigit + 1,
     tempmove        = 0,
     tempstorage     = 0;
 
+    if (currentdigit > 8)
+    {
+        currentdigit = 8;
+    }
+    tempstorage = digitsarray[highestdigit];
+    digitsarray[highestdigit] = digitsarray[9];
+
+    while (currentdigit <= 9)
+    {
+        tempmove = digitsarray[currentdigit];
+        digitsarray[currentdigit] = tempstorage;
+
+        tempstorage = tempmove;
+
+        currentdigit ++;
+        
+    }
+    permutation_count++;
 
     //do stuff
 }
