@@ -12,22 +12,33 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 
 //**********************************************
 
 //Functions
+//Run The Permutation
 void do_Permutation(__int32_t high_index);
-__int32_t find_lowest_number(__int32_t current_index);
+
+//Add another permutation to the total
 void add_permutation();
+
+//Find the same numbers index. input is the number, and the starting index. Returns Index
 __int32_t find_same_number_index(__int32_t, __int32_t);
+
+//print the digits of the permutation
 void print_permutation();
 
+//Swap digits based on the input indexes
+void swap_digits_with_indexes(__int32_t, __int32_t);
+
+//Find the lowest number in the array Starting Number, Starting Index. Returns index of lowest number
+__int32_t find_lowest_number(__int32_t, __int32_t); 	
 
 
 //Global Variables
 
 __int32_t
 million 				= 1000000,
-permutation_count 		= 0,
+permutation_count 		= 1,
 digits[10] 				= {0,1,2,3,4,5,6,7,8,9},
 permutation_array[10] 	= {0,1,2,3,4,5,6,7,8,9},
-permutation_index 		= 0,
+permutation_index 		= 9,
 test_placeholder		= 0;
 
 //**********************************************
@@ -36,10 +47,57 @@ test_placeholder		= 0;
 int main()
 {
 
+	__int32_t 
+	temp_number_index,
+	lowest_number_index;
+	
+	while (permutation_count <= million)
+	{
+		
+
+		if ( (permutation_array[permutation_index] + 1) <= 9)
+		{
+			//find the indexes of swapping numbers
+			temp_number_index = find_same_number_index((permutation_array[permutation_index] + 1), permutation_index + 1);
+			//then swap them
+			swap_digits_with_indexes(permutation_index, temp_number_index);
+			//move smallest number to the front, after the digit we just changed
+			lowest_number_index = ((permutation_array[permutation_index + 1]), permutation_index + 1);
+			swap_digits_with_indexes( (permutation_index + 1), lowest_number_index);
+
+		}
+		
+		else
+		{
+			permutation_index --;
+		}
+
+		if( (permutation_count >= million) || (permutation_index < 0) )
+		{
+			print_permutation;
+			return 0;
+		}
 
 
 
-return 0;
+	}
+	
+	print_permutation;
+	return 0;
+
+}
+
+
+//**********************************************
+void swap_digits_with_indexes(__int32_t first_index, __int32_t second_index)
+{
+	__int32_t
+	first_digit = permutation_array[first_index],
+	second_digit = permutation_array[second_index];
+
+	permutation_array[second_index] = first_digit;
+	permutation_array[first_index] = second_digit;
+
 }
 
 
@@ -81,7 +139,7 @@ void bubbleSort(int arr[], int startIdx) {
 }
 
 //**********************************************
-__int32_t find_same_number(__int32_t number_to_find, __int32_t starting_index)
+__int32_t find_same_number_index(__int32_t number_to_find, __int32_t starting_index)
 {
 
 	for (__int32_t n = starting_index; n < 10; n++)
@@ -104,4 +162,17 @@ void print_permutation()
 		printf("%d", permutation_array[i]);
 	}
 	printf("\n");
+}
+
+//**********************************************
+__int32_t find_lowest_number(__int32_t number, __int32_t index)
+{
+	for (index; index <=9; index++)
+	{
+		if (permutation_array[index] > number)
+		{
+			number = permutation_array[index];
+		}
+	}
+	return index;
 }
